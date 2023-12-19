@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="c">ksdjfhaskdf sadkfjh</div>
+    <form>
+        <input type="text" id="name" name="name" placeholder="name">
+        <input type="text" id="product_id" name="product_id" placeholder="product_id">
+        <input type="text" id="product_manufacture" name="product_manufacture" placeholder="product_manufacture">
+        <input type="text" id="product_discription" name="product_discription" placeholder="product_discription">
+        <input type="text" id="product_quantity" name="product_quantity" placeholder="product_quantity">
+        <input type="text" id="product_category" name="product_category" placeholder="product_category">
+        <button onclick={formsubmit()}>Add Product</button>
+    </form>
+</body>
+<script>
+    
+    const formsubmit=async (event)=>{
+        console.log("form submited");
+        const name=document.getElementById('name').value;
+        const product_id=document.getElementById('product_id').value;
+        const product_manufacture=document.getElementById('product_manufacture').value;
+        const product_discription=document.getElementById('product_discription').value;
+        const product_quantity=document.getElementById('product_quantity').value;
+        const product_category=document.getElementById('product_category').value;
+        
+        if(name=="" || product_id=="" || product_manufacture=="" || product_discription==""){
+            alert("please fill the required boxes");
+            return;
+        }
+        
+        const res=await fetch('/add',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({name,product_id,product_manufacture,product_discription,product_quantity,product_category})
+        });
+
+        if(!res.ok){
+            alert("error");
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log(data);
+
+        <!-- const data=await res.json();
+        console.log(data);
+        document.getElementById('c').style.backgroundColor='red';
+        if(!data){
+            console.log("data not saved ");
+            window.alert("Product not saved due to error");
+        }else{
+            alert("Product saved check database");
+            console.log("have the data");
+        } -->
+    }
+</script>
+</html>
